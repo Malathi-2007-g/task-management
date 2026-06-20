@@ -14,20 +14,24 @@ import {
 
 // ── Route guard: redirect unauthenticated users to login ────
 export function requireAuth(callback) {
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      window.location.href = "login.html";
-    } else {
-      callback(user);
-    }
-  });
+    onAuthStateChanged(auth, (user) => {
+        // User illana, ippo login page-la illa nu check panni thaan redirect பண்ணும்
+        if (!user && !window.location.href.includes("login.html")) {
+            window.location.href = "login.html";
+        } else if (user) {
+            callback(user);
+        }
+    });
 }
 
 // ── Route guard: redirect already-logged-in users to dash ──
 export function redirectIfLoggedIn() {
-  onAuthStateChanged(auth, (user) => {
-    if (user) window.location.href = "dashboard.html";
-  });
+    onAuthStateChanged(auth, (user) => {
+        // User login aairundha mattum, dashboard-um ippo iruka url-um vera vera-nu check panni kootitu pogum
+        if (user && !window.location.href.includes("dashboard.html")) {
+            window.location.href = "dashboard.html";
+        }
+    });
 }
 
 // ── Register new user ────────────────────────────────────────
